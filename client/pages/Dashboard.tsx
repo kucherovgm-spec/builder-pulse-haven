@@ -77,7 +77,22 @@ function SegmentBlock({ segment, excluded, onToggleExclude }: { segment: Segment
                   <div className="flex items-start gap-2">
                     <span className="text-muted-foreground">#{c.id}</span>
                     <div className="min-w-0">
-                      <div className="font-medium">{c.title}</div>
+                      <div className="flex items-center gap-2">
+                        <div className="font-medium">{c.title}</div>
+                        {c.hasWarning && (
+                          <Popover>
+                            <PopoverTrigger className="text-red-600"><AlertTriangle className="h-4 w-4" /></PopoverTrigger>
+                            <PopoverContent align="center" className="w-64 text-sm">
+                              <div className="font-medium mb-1">Рекомендация</div>
+                              <div className="text-xs text-muted-foreground mb-2">на сегодня</div>
+                              <ul className="list-disc pl-4 space-y-1">
+                                <li>Отключите объявление</li>
+                                <li>Отметить как согласовано</li>
+                              </ul>
+                            </PopoverContent>
+                          </Popover>
+                        )}
+                      </div>
                       <div className="text-xs text-muted-foreground">{c.desc}</div>
                       <button
                         onClick={() => onToggleExclude(c.id)}
@@ -93,22 +108,7 @@ function SegmentBlock({ segment, excluded, onToggleExclude }: { segment: Segment
                 <TableCell><MetricCell /></TableCell>
                 <TableCell><MetricCell /></TableCell>
                 <TableCell>
-                  <div className="flex items-center justify-center gap-1">
-                    <MetricCell />
-                    {c.hasWarning && (
-                      <Popover>
-                        <PopoverTrigger className="text-red-600"><AlertTriangle className="h-4 w-4" /></PopoverTrigger>
-                        <PopoverContent align="center" className="w-64 text-sm">
-                          <div className="font-medium mb-1">Рекомендация</div>
-                          <div className="text-xs text-muted-foreground mb-2">на сегодня</div>
-                          <ul className="list-disc pl-4 space-y-1">
-                            <li>Отключите объявление</li>
-                            <li>Отметить как согласовано</li>
-                          </ul>
-                        </PopoverContent>
-                      </Popover>
-                    )}
-                  </div>
+                  <MetricCell />
                 </TableCell>
                 <TableCell><MetricCell /></TableCell>
               </TableRow>
@@ -253,8 +253,8 @@ export default function Dashboard() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow className="bg-red-50">
-                <TableCell className="font-medium text-red-700">Итого по цели</TableCell>
+              <TableRow>
+                <TableCell className="font-medium">Итого по цели</TableCell>
                 <TableCell><MetricCell /></TableCell>
                 <TableCell><MetricCell /></TableCell>
                 <TableCell><MetricCell /></TableCell>

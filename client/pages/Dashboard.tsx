@@ -43,7 +43,7 @@ function SegmentBlock({ segment, excluded, onToggleExclude }: { segment: Segment
             <div className="min-w-0">
               <div className="flex items-center gap-2">
                 <button
-                  aria-label="��аскрыть сегмент"
+                  aria-label="Раскрыть сегмент"
                   onClick={() => setOpen((v) => !v)}
                   className="mr-1 text-muted-foreground hover:text-foreground"
                 >
@@ -252,7 +252,7 @@ export default function Dashboard() {
                 <TableHead className="text-center">Расх (%)</TableHead>
                 <TableHead className="text-center">Онлайн конв</TableHead>
                 <TableHead className="text-center">CR (%)</TableHead>
-                <TableHead className="text-center">��вал лиды</TableHead>
+                <TableHead className="text-center">Квал лиды</TableHead>
                 <TableHead className="text-center">CPL</TableHead>
                 <TableHead className="text-center">Показы</TableHead>
                 <TableHead className="text-center">Клики</TableHead>
@@ -264,6 +264,13 @@ export default function Dashboard() {
             <TableBody>
               <TableRow>
                 <TableCell className="font-medium">Итого по цели</TableCell>
+                <TableCell><MetricCell /></TableCell>
+                <TableCell><MetricCell /></TableCell>
+                <TableCell><MetricCell /></TableCell>
+                <TableCell><MetricCell /></TableCell>
+                <TableCell><MetricCell /></TableCell>
+                <TableCell><MetricCell /></TableCell>
+                <TableCell><MetricCell /></TableCell>
                 <TableCell><MetricCell /></TableCell>
                 <TableCell><MetricCell /></TableCell>
                 <TableCell><MetricCell /></TableCell>

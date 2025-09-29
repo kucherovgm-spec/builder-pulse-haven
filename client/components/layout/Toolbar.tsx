@@ -23,6 +23,9 @@ export default function Toolbar() {
             </Button>
           </div>
         </div>
+        <div className="mt-1 flex items-center justify-end text-xs text-muted-foreground">
+          История: 1–31 июл (30 дн.) | 1–31 авг (30 дн.) | 1–14 сен (14 дн.)
+        </div>
       </div>
     </div>
   );

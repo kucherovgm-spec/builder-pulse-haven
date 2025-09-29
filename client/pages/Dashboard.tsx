@@ -3,6 +3,7 @@ import { AlertTriangle, ChevronDown, Info, X } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 
 function MetricCell() {
   return (

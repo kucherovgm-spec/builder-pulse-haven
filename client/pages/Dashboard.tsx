@@ -188,7 +188,7 @@ export default function Dashboard() {
         info: "AD_NETWORK | Мужчины | Смартфон | Android",
         defaultOpen: true,
         campaigns: [
-          { id: "345745", title: "Ушедш��х по ветру и снегу", desc: "CPA, дорогая. Оплата за конверсии. Уменьш. запросы спроса", hasWarning: true },
+          { id: "345745", title: "Ушедших по ветру и снегу", desc: "CPA, дорогая. Оплата за конверсии. Уменьш. запросы спроса", hasWarning: true },
           { id: "367878", title: "Самокатъ", desc: "CPA, дорога. Оплата за конверсии. Узкие запросы" },
         ],
         groups: [
@@ -240,8 +240,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="px-4 pt-2 text-xs text-muted-foreground">История: 1–31 июл (30 дн.) | 1–31 авг (30 дн.) | 1–14 сен (14 дн.)</div>
-
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
@@ -256,7 +254,7 @@ export default function Dashboard() {
             </TableHeader>
             <TableBody>
               <TableRow className="bg-red-50">
-                <TableCell className="font-medium text-red-700">Итого п�� цели</TableCell>
+                <TableCell className="font-medium text-red-700">Итого по цели</TableCell>
                 <TableCell colSpan={5}>
                   <div className="grid grid-cols-5">
                     <MetricCell />

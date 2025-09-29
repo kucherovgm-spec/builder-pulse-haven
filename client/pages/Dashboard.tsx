@@ -43,7 +43,7 @@ function SegmentBlock({ segment, excluded, onToggleExclude }: { segment: Segment
             <div className="min-w-0">
               <div className="flex items-center gap-2">
                 <button
-                  aria-label="Раскрыть сегмент"
+                  aria-label="��аскрыть сегмент"
                   onClick={() => setOpen((v) => !v)}
                   className="mr-1 text-muted-foreground hover:text-foreground"
                 >
@@ -233,7 +233,7 @@ export default function Dashboard() {
     <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 py-4">
       <div className="rounded-lg border bg-card">
         <div className="flex items-center justify-between gap-2 border-b px-4 py-2 text-sm">
-          <div className="font-medium">Анализ по полу и устройству в ��етях</div>
+          <div className="font-medium">Анализ по полу и устройству в Сетях</div>
           <div className="flex items-center gap-2 text-muted-foreground">
             <button className="inline-flex items-center gap-1 hover:text-foreground">
               <span>Источн.</span>
@@ -246,12 +246,19 @@ export default function Dashboard() {
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/50">
-                <TableHead className="w-[420px]">&nbsp;</TableHead>
-                <TableHead className="text-center">Сред. CPA</TableHead>
-                <TableHead className="text-center">Расход ₽</TableHead>
-                <TableHead className="text-center">Расход %</TableHead>
-                <TableHead className="text-center">Онлайн конверсии</TableHead>
+                <TableHead className="w-[520px]">&nbsp;</TableHead>
+                <TableHead className="text-center">Средн СРА</TableHead>
+                <TableHead className="text-center">Расход</TableHead>
+                <TableHead className="text-center">Расх (%)</TableHead>
+                <TableHead className="text-center">Онлайн конв</TableHead>
                 <TableHead className="text-center">CR (%)</TableHead>
+                <TableHead className="text-center">��вал лиды</TableHead>
+                <TableHead className="text-center">CPL</TableHead>
+                <TableHead className="text-center">Показы</TableHead>
+                <TableHead className="text-center">Клики</TableHead>
+                <TableHead className="text-center">CPC</TableHead>
+                <TableHead className="text-center">CTR%</TableHead>
+                <TableHead className="text-center">ср. Отказы</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

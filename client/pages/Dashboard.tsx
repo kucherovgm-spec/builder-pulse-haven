@@ -41,7 +41,7 @@ function SegmentBlock({ segment, excluded, onToggleExclude }: { segment: Segment
           <div className="flex items-start gap-2">
             <span className="text-muted-foreground">#{segment.id}</span>
             <div className="min-w-0">
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-2">
                 <button
                   aria-label="Раскрыть сегмент"
                   onClick={() => setOpen((v) => !v)}
@@ -49,9 +49,10 @@ function SegmentBlock({ segment, excluded, onToggleExclude }: { segment: Segment
                 >
                   <ChevronDown className={cn("h-4 w-4 transition-transform", open ? "rotate-180" : "-rotate-90")} />
                 </button>
-                <div className="text-brand font-medium">"{segment.name}"</div>
+                <Link to={`/segment/${segment.id}`} className="text-brand hover:underline truncate">
+                  {segment.info}
+                </Link>
               </div>
-              {open && <div className="text-xs text-muted-foreground">{segment.info}</div>}
             </div>
             <div className="ml-auto text-xs text-muted-foreground flex items-center gap-1">12%<Info className="h-3 w-3" /></div>
           </div>
@@ -232,7 +233,7 @@ export default function Dashboard() {
     <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 py-4">
       <div className="rounded-lg border bg-card">
         <div className="flex items-center justify-between gap-2 border-b px-4 py-2 text-sm">
-          <div className="font-medium">Анализ по полу и устройству в Сетях</div>
+          <div className="font-medium">Анализ по полу и устройству в ��етях</div>
           <div className="flex items-center gap-2 text-muted-foreground">
             <button className="inline-flex items-center gap-1 hover:text-foreground">
               <span>Источн.</span>

@@ -255,15 +255,11 @@ export default function Dashboard() {
             <TableBody>
               <TableRow className="bg-red-50">
                 <TableCell className="font-medium text-red-700">Итого по цели</TableCell>
-                <TableCell colSpan={5}>
-                  <div className="grid grid-cols-5">
-                    <MetricCell />
-                    <MetricCell />
-                    <MetricCell />
-                    <MetricCell />
-                    <MetricCell />
-                  </div>
-                </TableCell>
+                <TableCell><MetricCell /></TableCell>
+                <TableCell><MetricCell /></TableCell>
+                <TableCell><MetricCell /></TableCell>
+                <TableCell><MetricCell /></TableCell>
+                <TableCell><MetricCell /></TableCell>
               </TableRow>
 
               <TableRow className="bg-red-100/70">

@@ -1,10 +1,43 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { AlertTriangle, ChevronDown, Info } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 function CellNumber() {
   return <div className="text-center text-sm">111</div>;
+}
+
+function SegmentRow({ idx, name, info, defaultOpen = false }: { idx: number; name: string; info: string; defaultOpen?: boolean }) {
+  const [open, setOpen] = useState<boolean>(defaultOpen);
+  return (
+    <TableRow>
+      <TableCell className="align-top">
+        <div className="flex items-start gap-2">
+          <span className="text-muted-foreground">#{idx}</span>
+          <div className="min-w-0">
+            <div className="flex items-center gap-1">
+              <button
+                aria-label="Раскрыть сегмент"
+                onClick={() => setOpen((v) => !v)}
+                className="mr-1 text-muted-foreground hover:text-foreground"
+              >
+                <ChevronDown className={cn("h-4 w-4 transition-transform", open ? "rotate-180" : "-rotate-90")} />
+              </button>
+              <div className="text-brand font-medium">"{name}"</div>
+            </div>
+            {open && <div className="text-xs text-muted-foreground">{info}</div>}
+          </div>
+          <div className="ml-auto text-xs text-muted-foreground flex items-center gap-1">12%<Info className="h-3 w-3" /></div>
+        </div>
+      </TableCell>
+      <TableCell><CellNumber /></TableCell>
+      <TableCell><CellNumber /></TableCell>
+      <TableCell><CellNumber /></TableCell>
+      <TableCell><CellNumber /></TableCell>
+      <TableCell><CellNumber /></TableCell>
+    </TableRow>
+  );
 }
 
 export default function Dashboard() {
@@ -47,7 +80,7 @@ export default function Dashboard() {
               </TableRow>
 
               <TableRow className="bg-red-100/70">
-                <TableCell className="font-semibold text-red-800 flex items-center gap-2">Дорогие сегменты <Badge variant="secondary" className="text-[10px]">Значимость корреляции</Badge></TableCell>
+                <TableCell className="font-semibold text-red-800">Дорогие сегменты</TableCell>
                 <TableCell className="text-center">—</TableCell>
                 <TableCell className="text-center">—</TableCell>
                 <TableCell className="text-center">—</TableCell>
@@ -56,57 +89,9 @@ export default function Dashboard() {
               </TableRow>
 
               {/* Сегменты */}
-              <TableRow>
-                <TableCell className="align-top">
-                  <div className="flex items-start gap-2">
-                    <span className="text-muted-foreground">#1</span>
-                    <div>
-                      <div className="text-brand font-medium">"Android"</div>
-                      <div className="text-xs text-muted-foreground">AD_NETWORK | Мужчины | Смартфон | Android</div>
-                    </div>
-                    <div className="ml-auto text-xs text-muted-foreground flex items-center gap-1">12%<Info className="h-3 w-3" /></div>
-                  </div>
-                </TableCell>
-                <TableCell><CellNumber /></TableCell>
-                <TableCell><CellNumber /></TableCell>
-                <TableCell><CellNumber /></TableCell>
-                <TableCell><CellNumber /></TableCell>
-                <TableCell><CellNumber /></TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="align-top">
-                  <div className="flex items-start gap-2">
-                    <span className="text-muted-foreground">#2</span>
-                    <div>
-                      <div className="text-brand font-medium">"IOS"</div>
-                      <div className="text-xs text-muted-foreground">AD_NETWORK | Мужчины | Смартфон | iOS</div>
-                    </div>
-                    <div className="ml-auto text-xs text-muted-foreground flex items-center gap-1">12%<Info className="h-3 w-3" /></div>
-                  </div>
-                </TableCell>
-                <TableCell><CellNumber /></TableCell>
-                <TableCell><CellNumber /></TableCell>
-                <TableCell><CellNumber /></TableCell>
-                <TableCell><CellNumber /></TableCell>
-                <TableCell><CellNumber /></TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="align-top">
-                  <div className="flex items-start gap-2">
-                    <span className="text-muted-foreground">#3</span>
-                    <div>
-                      <div className="text-brand font-medium">"ОС все"</div>
-                      <div className="text-xs text-muted-foreground">AD_NETWORK | Мужчины | ОС все</div>
-                    </div>
-                    <div className="ml-auto text-xs text-muted-foreground flex items-center gap-1">12%<Info className="h-3 w-3" /></div>
-                  </div>
-                </TableCell>
-                <TableCell><CellNumber /></TableCell>
-                <TableCell><CellNumber /></TableCell>
-                <TableCell><CellNumber /></TableCell>
-                <TableCell><CellNumber /></TableCell>
-                <TableCell><CellNumber /></TableCell>
-              </TableRow>
+              <SegmentRow idx={1} name="Android" info="AD_NETWORK | Мужчины | Смартфон | Android" defaultOpen />
+              <SegmentRow idx={2} name="IOS" info="AD_NETWORK | Мужчины | Смартфон | iOS" />
+              <SegmentRow idx={3} name="ОС все" info="AD_NETWORK | Мужчины | ОС все" />
 
               {/* Кампании */}
               <TableRow className="bg-muted/40">

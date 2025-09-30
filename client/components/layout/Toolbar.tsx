@@ -1,7 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { RefreshCw, ChevronDown } from "lucide-react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function Toolbar() {
   return (
@@ -28,7 +34,9 @@ export default function Toolbar() {
             </Select>
           </div>
           <div className="ml-auto flex items-center gap-3">
-            <div className="hidden md:block text-muted-foreground">Период: 28 авг — 28 сент (30 дн.)</div>
+            <div className="hidden md:block text-muted-foreground">
+              Период: 28 авг — 28 сент (30 дн.)
+            </div>
             <Button variant="ghost" size="icon" aria-label="Обновить">
               <RefreshCw className="h-4 w-4" />
             </Button>

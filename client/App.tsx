@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import AppHeader from "@/components/layout/AppHeader";
 import Toolbar from "@/components/layout/Toolbar";
 import Dashboard from "@/pages/Dashboard";
+import Segment from "@/pages/Segment";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
           <Toolbar />
           <Routes>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/segment/:id" element={<Segment />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

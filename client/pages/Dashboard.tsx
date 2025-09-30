@@ -20,13 +20,14 @@ const METRIC_COLUMNS = [
   "ср. Отказы",
 ];
 
-function MetricCell({ highlight = false }: { highlight?: boolean }) {
+function MetricCell({ variant = "none" }: { variant?: "none" | "bad" | "good" }) {
   return (
     <div className="flex flex-col items-center justify-center">
       <div
         className={cn(
           "text-sm leading-none rounded px-2 py-0.5",
-          highlight ? "bg-red-50 text-red-700 ring-1 ring-red-200 font-semibold" : undefined,
+          variant === "bad" && "bg-red-50 text-red-700 ring-1 ring-red-200 font-semibold",
+          variant === "good" && "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200",
         )}
       >
         111
@@ -40,12 +41,12 @@ function MetricCell({ highlight = false }: { highlight?: boolean }) {
   );
 }
 
-function MetricCellsRow({ highlightFirst = false }: { highlightFirst?: boolean }) {
+function MetricCellsRow({ firstVariant = "none" }: { firstVariant?: "none" | "bad" | "good" }) {
   return (
     <>
       {METRIC_COLUMNS.map((_, i) => (
         <TableCell key={i}>
-          <MetricCell highlight={highlightFirst && i === 0} />
+          <MetricCell variant={i === 0 ? firstVariant : "none"} />
         </TableCell>
       ))}
     </>
@@ -58,7 +59,7 @@ type Ad = { id: string; title: string; warning?: boolean };
 
 type Segment = {
   id: number;
-  info: string; // полное имя сегмента (сразу выводится)
+  info: string; // полное им�� сегмента (сразу выводится)
   defaultOpen?: boolean;
   campaigns: Campaign[];
   groups: Group[];
@@ -72,7 +73,7 @@ function SegmentBlock({ segment, excluded, onToggleExclude, highlightCPA = false
   return (
     <>
       <TableRow>
-        <TableCell className="align-top">
+        <TableCell className={cn("align-top", highlightCPA ? "bg-red-50" : "bg-emerald-50/60")}>
           <div className="flex items-start gap-2">
             <span className="text-muted-foreground">#{segment.id}</span>
             <div className="min-w-0">
@@ -92,7 +93,7 @@ function SegmentBlock({ segment, excluded, onToggleExclude, highlightCPA = false
             <div className="ml-auto text-xs text-muted-foreground flex items-center gap-1">12%<Info className="h-3 w-3" /></div>
           </div>
         </TableCell>
-        <MetricCellsRow highlightFirst={highlightCPA} />
+        <MetricCellsRow firstVariant={highlightCPA ? "bad" : "good"} />
       </TableRow>
 
       {open && (
@@ -178,7 +179,7 @@ function SegmentBlock({ segment, excluded, onToggleExclude, highlightCPA = false
                   <div className="font-medium">{g.title}</div>
                 </div>
               </TableCell>
-              <MetricCellsRow />
+              <MetricCellsRow firstVariant="none" />
             </TableRow>
           ))}
 
@@ -244,7 +245,7 @@ function AnalysisTable({ title, segments, excluded, onToggleExclude }: { title: 
           <TableBody>
             <TableRow>
               <TableCell className="font-medium">Итого по цели</TableCell>
-              <MetricCellsRow />
+              <MetricCellsRow firstVariant="none" />
             </TableRow>
 
             {segments.map((s, i) => (
@@ -267,7 +268,7 @@ export default function Dashboard() {
         defaultOpen: true,
         campaigns: [
           { id: "345745", title: "Ушедших по ветру и снегу", desc: "CPA, дорогая. Оплата за конверсии. Уменьш. запросы спроса", hasWarning: true },
-          { id: "367878", title: "Самокатъ", desc: "CPA, дорога. Опла��а за конверсии. Узкие запросы" },
+          { id: "367878", title: "Самокатъ", desc: "CPA, дорога. Оплата за конверсии. Узкие запросы" },
         ],
         groups: [
           { id: "333433", title: "Группа объявлений" },

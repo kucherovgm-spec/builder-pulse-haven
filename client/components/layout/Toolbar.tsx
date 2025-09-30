@@ -8,8 +8,6 @@ export default function Toolbar() {
     <div className="w-full border-b bg-background">
       <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 py-2">
         <div className="flex flex-wrap items-center gap-3 text-sm">
-          <Button variant="secondary" size="sm">Кампании</Button>
-          <Separator orientation="vertical" className="h-6" />
           <div className="flex items-center gap-2">
             <span className="text-muted-foreground">Цель:</span>
             <Button variant="ghost" size="sm" className="gap-1">

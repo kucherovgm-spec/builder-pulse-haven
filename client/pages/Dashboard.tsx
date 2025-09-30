@@ -110,7 +110,23 @@ function SegmentBlock({ segment, excluded, onToggleExclude, highlightCPA = false
                   <div className="flex items-start gap-2">
                     <span className="text-muted-foreground">#{c.id}</span>
                     <div className="min-w-0">
-                      <div className="font-medium">{c.title}</div>
+                      <div className="flex items-center gap-2">
+                        <div className="font-medium">{c.title}</div>
+                        {c.hasWarning && (
+                          <Popover>
+                            <PopoverTrigger className="text-red-600"><AlertTriangle className="h-4 w-4" /></PopoverTrigger>
+                            <PopoverContent align="center" className="w-72 text-sm">
+                              <div className="font-medium mb-1">Рекомендация</div>
+                              <textarea
+                                className="mt-2 w-full rounded border bg-background p-2 text-sm"
+                                rows={4}
+                                value={campRecs[c.id] ?? "Отключите объявление"}
+                                onChange={(e) => setCampRecs((m) => ({ ...m, [c.id]: e.target.value }))}
+                              />
+                            </PopoverContent>
+                          </Popover>
+                        )}
+                      </div>
                       <div className="text-xs text-muted-foreground">{c.desc}</div>
                       <button
                         onClick={() => onToggleExclude(c.id)}
@@ -126,20 +142,6 @@ function SegmentBlock({ segment, excluded, onToggleExclude, highlightCPA = false
                   <TableCell key={i}>
                     <div className="flex items-center justify-center gap-1">
                       <MetricCell />
-                      {c.hasWarning && i === 3 && (
-                        <Popover>
-                          <PopoverTrigger className="text-red-600"><AlertTriangle className="h-4 w-4" /></PopoverTrigger>
-                          <PopoverContent align="center" className="w-72 text-sm">
-                            <div className="font-medium mb-1">Рекомендация</div>
-                            <textarea
-                              className="mt-2 w-full rounded border bg-background p-2 text-sm"
-                              rows={4}
-                              value={campRecs[c.id] ?? "Отключите объявление"}
-                              onChange={(e) => setCampRecs((m) => ({ ...m, [c.id]: e.target.value }))}
-                            />
-                          </PopoverContent>
-                        </Popover>
-                      )}
                     </div>
                   </TableCell>
                 ))}
@@ -189,14 +191,9 @@ function SegmentBlock({ segment, excluded, onToggleExclude, highlightCPA = false
             <TableRow key={a.id}>
               <TableCell className="align-top">
                 <div className="flex items-start gap-2">
-                  <div className="font-medium">{a.title}</div>
-                </div>
-              </TableCell>
-              {METRIC_COLUMNS.map((_, i) => (
-                <TableCell key={i}>
-                  <div className="flex items-center justify-center gap-1">
-                    <MetricCell />
-                    {a.warning && i === 3 && (
+                  <div className="flex items-center gap-2">
+                    <div className="font-medium">{a.title}</div>
+                    {a.warning && (
                       <Popover>
                         <PopoverTrigger className="text-red-600"><AlertTriangle className="h-4 w-4" /></PopoverTrigger>
                         <PopoverContent align="center" className="w-72 text-sm">
@@ -210,6 +207,13 @@ function SegmentBlock({ segment, excluded, onToggleExclude, highlightCPA = false
                         </PopoverContent>
                       </Popover>
                     )}
+                  </div>
+                </div>
+              </TableCell>
+              {METRIC_COLUMNS.map((_, i) => (
+                <TableCell key={i}>
+                  <div className="flex items-center justify-center gap-1">
+                    <MetricCell />
                   </div>
                 </TableCell>
               ))}
@@ -263,7 +267,7 @@ export default function Dashboard() {
         defaultOpen: true,
         campaigns: [
           { id: "345745", title: "Ушедших по ветру и снегу", desc: "CPA, дорогая. Оплата за конверсии. Уменьш. запросы спроса", hasWarning: true },
-          { id: "367878", title: "Самокатъ", desc: "CPA, дорога. Оплата за конверсии. Узкие запросы" },
+          { id: "367878", title: "Самокатъ", desc: "CPA, дорога. Опла��а за конверсии. Узкие запросы" },
         ],
         groups: [
           { id: "333433", title: "Группа объявлений" },

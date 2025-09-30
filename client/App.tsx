@@ -30,4 +30,13 @@ const App = () => (
   </TooltipProvider>
 );
 
-createRoot(document.getElementById("root")!).render(<App />);
+const container = document.getElementById("root")!;
+// Reuse existing root during HMR to avoid duplicate createRoot warnings
+const existingRoot = (window as any).__appRoot;
+if (existingRoot) {
+  existingRoot.render(<App />);
+} else {
+  const root = createRoot(container);
+  (window as any).__appRoot = root;
+  root.render(<App />);
+}

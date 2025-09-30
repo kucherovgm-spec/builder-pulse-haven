@@ -5,10 +5,32 @@ import { cn } from "@/lib/utils";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
-function MetricCell() {
+const METRIC_COLUMNS = [
+  "Средн СР��",
+  "Расход",
+  "Расх (%)",
+  "Онлайн конв",
+  "CR (%)",
+  "Квал лиды",
+  "CPL",
+  "Показы",
+  "Клики",
+  "CPC",
+  "CTR%",
+  "ср. Отказы",
+];
+
+function MetricCell({ highlight = false }: { highlight?: boolean }) {
   return (
     <div className="flex flex-col items-center justify-center">
-      <div className="text-sm leading-none">111</div>
+      <div
+        className={cn(
+          "text-sm leading-none rounded px-2 py-0.5",
+          highlight ? "bg-red-50 text-red-700 ring-1 ring-red-200 font-semibold" : undefined,
+        )}
+      >
+        111
+      </div>
       <div className="mt-1 flex gap-3 text-[10px] text-muted-foreground">
         <span>10</span>
         <span>20</span>
@@ -18,21 +40,32 @@ function MetricCell() {
   );
 }
 
+function MetricCellsRow({ highlightFirst = false }: { highlightFirst?: boolean }) {
+  return (
+    <>
+      {METRIC_COLUMNS.map((_, i) => (
+        <TableCell key={i}>
+          <MetricCell highlight={highlightFirst && i === 0} />
+        </TableCell>
+      ))}
+    </>
+  );
+}
+
 type Campaign = { id: string; title: string; desc: string; hasWarning?: boolean };
 type Group = { id: string; title: string };
 type Ad = { id: string; title: string; warning?: boolean };
 
 type Segment = {
   id: number;
-  name: string;
-  info: string;
+  info: string; // полное имя сегмента (сразу выводится)
   defaultOpen?: boolean;
   campaigns: Campaign[];
   groups: Group[];
   ads: Ad[];
 };
 
-function SegmentBlock({ segment, excluded, onToggleExclude }: { segment: Segment; excluded: Set<string>; onToggleExclude: (id: string) => void }) {
+function SegmentBlock({ segment, excluded, onToggleExclude, highlightCPA = false }: { segment: Segment; excluded: Set<string>; onToggleExclude: (id: string) => void; highlightCPA?: boolean }) {
   const [open, setOpen] = useState<boolean>(!!segment.defaultOpen);
   return (
     <>
@@ -57,11 +90,7 @@ function SegmentBlock({ segment, excluded, onToggleExclude }: { segment: Segment
             <div className="ml-auto text-xs text-muted-foreground flex items-center gap-1">12%<Info className="h-3 w-3" /></div>
           </div>
         </TableCell>
-        <TableCell><MetricCell /></TableCell>
-        <TableCell><MetricCell /></TableCell>
-        <TableCell><MetricCell /></TableCell>
-        <TableCell><MetricCell /></TableCell>
-        <TableCell><MetricCell /></TableCell>
+        <MetricCellsRow highlightFirst={highlightCPA} />
       </TableRow>
 
       {open && (
@@ -69,7 +98,7 @@ function SegmentBlock({ segment, excluded, onToggleExclude }: { segment: Segment
           {/* Кампании */}
           <TableRow className="bg-muted/40">
             <TableCell className="font-semibold">Кампании:</TableCell>
-            <TableCell colSpan={5}></TableCell>
+            <TableCell colSpan={METRIC_COLUMNS.length}></TableCell>
           </TableRow>
           {segment.campaigns
             .filter((c) => !excluded.has(c.id))
@@ -106,20 +135,14 @@ function SegmentBlock({ segment, excluded, onToggleExclude }: { segment: Segment
                     <div className="ml-auto text-xs text-muted-foreground flex items-center gap-1">12%<Info className="h-3 w-3" /></div>
                   </div>
                 </TableCell>
-                <TableCell><MetricCell /></TableCell>
-                <TableCell><MetricCell /></TableCell>
-                <TableCell><MetricCell /></TableCell>
-                <TableCell>
-                  <MetricCell />
-                </TableCell>
-                <TableCell><MetricCell /></TableCell>
+                <MetricCellsRow />
               </TableRow>
             ))}
 
           {/* Плашка с исключенными */}
           {Array.from(excluded).filter((id) => segment.campaigns.some((c) => c.id === id)).length > 0 && (
             <TableRow>
-              <TableCell colSpan={6}>
+              <TableCell colSpan={METRIC_COLUMNS.length + 1}>
                 <div className="px-2 py-1 text-xs text-muted-foreground">
                   Исключено: {segment.campaigns
                     .filter((c) => excluded.has(c.id))
@@ -136,7 +159,7 @@ function SegmentBlock({ segment, excluded, onToggleExclude }: { segment: Segment
           {/* Группы */}
           <TableRow className="bg-muted/40">
             <TableCell className="font-semibold">Группы:</TableCell>
-            <TableCell colSpan={5}></TableCell>
+            <TableCell colSpan={METRIC_COLUMNS.length}></TableCell>
           </TableRow>
           {segment.groups.map((g) => (
             <TableRow key={g.id}>
@@ -146,18 +169,14 @@ function SegmentBlock({ segment, excluded, onToggleExclude }: { segment: Segment
                   <div className="font-medium">{g.title}</div>
                 </div>
               </TableCell>
-              <TableCell><MetricCell /></TableCell>
-              <TableCell><MetricCell /></TableCell>
-              <TableCell><MetricCell /></TableCell>
-              <TableCell><MetricCell /></TableCell>
-              <TableCell><MetricCell /></TableCell>
+              <MetricCellsRow />
             </TableRow>
           ))}
 
           {/* Объявления */}
           <TableRow className="bg-muted/40">
             <TableCell className="font-semibold">Объявления:</TableCell>
-            <TableCell colSpan={5}></TableCell>
+            <TableCell colSpan={METRIC_COLUMNS.length}></TableCell>
           </TableRow>
           {segment.ads.map((a) => (
             <TableRow key={a.id}>
@@ -167,11 +186,7 @@ function SegmentBlock({ segment, excluded, onToggleExclude }: { segment: Segment
                   <div className="font-medium">{a.title}</div>
                 </div>
               </TableCell>
-              <TableCell><MetricCell /></TableCell>
-              <TableCell><MetricCell /></TableCell>
-              <TableCell><MetricCell /></TableCell>
-              <TableCell><MetricCell /></TableCell>
-              <TableCell><MetricCell /></TableCell>
+              <MetricCellsRow />
             </TableRow>
           ))}
         </>
@@ -180,13 +195,44 @@ function SegmentBlock({ segment, excluded, onToggleExclude }: { segment: Segment
   );
 }
 
+function AnalysisTable({ title, segments, excluded, onToggleExclude }: { title: string; segments: Segment[]; excluded: Set<string>; onToggleExclude: (id: string) => void }) {
+  return (
+    <div className="rounded-lg border bg-card">
+      <div className="flex items-center justify-between gap-2 border-b px-4 py-2 text-sm">
+        <div className="font-medium">{title}</div>
+      </div>
+      <div className="overflow-x-auto">
+        <Table>
+          <TableHeader>
+            <TableRow className="bg-muted/50">
+              <TableHead className="w-[520px]">&nbsp;</TableHead>
+              {METRIC_COLUMNS.map((col) => (
+                <TableHead key={col} className="text-center">{col}</TableHead>
+              ))}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell className="font-medium">Итого по цели</TableCell>
+              <MetricCellsRow />
+            </TableRow>
+
+            {segments.map((s, i) => (
+              <SegmentBlock key={s.id} segment={s} excluded={excluded} onToggleExclude={onToggleExclude} highlightCPA={i < 2} />
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    </div>
+  );
+}
+
 export default function Dashboard() {
   const [excluded, setExcluded] = useState<Set<string>>(new Set());
-  const segments: Segment[] = useMemo(
+  const segmentsA: Segment[] = useMemo(
     () => [
       {
         id: 1,
-        name: "Android",
         info: "AD_NETWORK | Мужчины | Смартфон | Android",
         defaultOpen: true,
         campaigns: [
@@ -203,7 +249,6 @@ export default function Dashboard() {
       },
       {
         id: 2,
-        name: "IOS",
         info: "AD_NETWORK | Мужчины | Смартфон | iOS",
         campaigns: [],
         groups: [],
@@ -211,12 +256,20 @@ export default function Dashboard() {
       },
       {
         id: 3,
-        name: "ОС все",
         info: "AD_NETWORK | Мужчины | ОС все",
         campaigns: [],
         groups: [],
         ads: [],
       },
+    ],
+    [],
+  );
+
+  const segmentsB: Segment[] = useMemo(
+    () => [
+      { id: 4, info: "Поиск | Регион Москва | Десктоп", campaigns: [], groups: [], ads: [] },
+      { id: 5, info: "Поиск | Мужчины | Смартфон", campaigns: [], groups: [], ads: [] },
+      { id: 6, info: "Поиск | Все | Смартфон", campaigns: [], groups: [], ads: [] },
     ],
     [],
   );
@@ -231,75 +284,9 @@ export default function Dashboard() {
 
   return (
     <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 py-4">
-      <div className="rounded-lg border bg-card">
-        <div className="flex items-center justify-between gap-2 border-b px-4 py-2 text-sm">
-          <div className="font-medium">Анализ по полу и устройству в Сетях</div>
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <button className="inline-flex items-center gap-1 hover:text-foreground">
-              <span>Источн.</span>
-              <ChevronDown className="h-3.5 w-3.5" />
-            </button>
-          </div>
-        </div>
-
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-muted/50">
-                <TableHead className="w-[520px]">&nbsp;</TableHead>
-                <TableHead className="text-center">Средн СРА</TableHead>
-                <TableHead className="text-center">Расход</TableHead>
-                <TableHead className="text-center">Расх (%)</TableHead>
-                <TableHead className="text-center">Онлайн конв</TableHead>
-                <TableHead className="text-center">CR (%)</TableHead>
-                <TableHead className="text-center">Квал лиды</TableHead>
-                <TableHead className="text-center">CPL</TableHead>
-                <TableHead className="text-center">Показы</TableHead>
-                <TableHead className="text-center">Клики</TableHead>
-                <TableHead className="text-center">CPC</TableHead>
-                <TableHead className="text-center">CTR%</TableHead>
-                <TableHead className="text-center">ср. Отказы</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow>
-                <TableCell className="font-medium">Итого по цели</TableCell>
-                <TableCell><MetricCell /></TableCell>
-                <TableCell><MetricCell /></TableCell>
-                <TableCell><MetricCell /></TableCell>
-                <TableCell><MetricCell /></TableCell>
-                <TableCell><MetricCell /></TableCell>
-                <TableCell><MetricCell /></TableCell>
-                <TableCell><MetricCell /></TableCell>
-                <TableCell><MetricCell /></TableCell>
-                <TableCell><MetricCell /></TableCell>
-                <TableCell><MetricCell /></TableCell>
-                <TableCell><MetricCell /></TableCell>
-                <TableCell><MetricCell /></TableCell>
-              </TableRow>
-
-              <TableRow className="bg-red-100/70">
-                <TableCell className="font-semibold text-red-800">Дорогие сегменты</TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-
-              {segments.map((s) => (
-                <SegmentBlock key={s.id} segment={s} excluded={excluded} onToggleExclude={toggleExclude} />
-              ))}
-            </TableBody>
-          </Table>
-        </div>
+      <div className="max-h-[calc(100vh-180px)] overflow-y-auto space-y-6 pr-2">
+        <AnalysisTable title="Анализ по полу и устройству в Сетях" segments={segmentsA} excluded={excluded} onToggleExclude={toggleExclude} />
+        <AnalysisTable title="Анализ по условию показа на поиске" segments={segmentsB} excluded={excluded} onToggleExclude={toggleExclude} />
       </div>
     </div>
   );

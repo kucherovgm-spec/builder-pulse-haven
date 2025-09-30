@@ -6,7 +6,7 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
 const METRIC_COLUMNS = [
-  "Средн СР��",
+  "Средний CPA",
   "Расход",
   "Расх (%)",
   "Онлайн конв",
@@ -67,6 +67,8 @@ type Segment = {
 
 function SegmentBlock({ segment, excluded, onToggleExclude, highlightCPA = false }: { segment: Segment; excluded: Set<string>; onToggleExclude: (id: string) => void; highlightCPA?: boolean }) {
   const [open, setOpen] = useState<boolean>(!!segment.defaultOpen);
+  const [campRecs, setCampRecs] = useState<Record<string, string>>({});
+  const [adRecs, setAdRecs] = useState<Record<string, string>>({});
   return (
     <>
       <TableRow>
@@ -108,22 +110,7 @@ function SegmentBlock({ segment, excluded, onToggleExclude, highlightCPA = false
                   <div className="flex items-start gap-2">
                     <span className="text-muted-foreground">#{c.id}</span>
                     <div className="min-w-0">
-                      <div className="flex items-center gap-2">
-                        <div className="font-medium">{c.title}</div>
-                        {c.hasWarning && (
-                          <Popover>
-                            <PopoverTrigger className="text-red-600"><AlertTriangle className="h-4 w-4" /></PopoverTrigger>
-                            <PopoverContent align="center" className="w-64 text-sm">
-                              <div className="font-medium mb-1">Рекомендация</div>
-                              <div className="text-xs text-muted-foreground mb-2">на сегодня</div>
-                              <ul className="list-disc pl-4 space-y-1">
-                                <li>Отключите объявление</li>
-                                <li>Отметить как согласовано</li>
-                              </ul>
-                            </PopoverContent>
-                          </Popover>
-                        )}
-                      </div>
+                      <div className="font-medium">{c.title}</div>
                       <div className="text-xs text-muted-foreground">{c.desc}</div>
                       <button
                         onClick={() => onToggleExclude(c.id)}
@@ -135,7 +122,27 @@ function SegmentBlock({ segment, excluded, onToggleExclude, highlightCPA = false
                     <div className="ml-auto text-xs text-muted-foreground flex items-center gap-1">12%<Info className="h-3 w-3" /></div>
                   </div>
                 </TableCell>
-                <MetricCellsRow />
+                {METRIC_COLUMNS.map((_, i) => (
+                  <TableCell key={i}>
+                    <div className="flex items-center justify-center gap-1">
+                      <MetricCell />
+                      {c.hasWarning && i === 3 && (
+                        <Popover>
+                          <PopoverTrigger className="text-red-600"><AlertTriangle className="h-4 w-4" /></PopoverTrigger>
+                          <PopoverContent align="center" className="w-72 text-sm">
+                            <div className="font-medium mb-1">Рекомендация</div>
+                            <textarea
+                              className="mt-2 w-full rounded border bg-background p-2 text-sm"
+                              rows={4}
+                              value={campRecs[c.id] ?? "Отключите объявление"}
+                              onChange={(e) => setCampRecs((m) => ({ ...m, [c.id]: e.target.value }))}
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      )}
+                    </div>
+                  </TableCell>
+                ))}
               </TableRow>
             ))}
 
@@ -182,11 +189,30 @@ function SegmentBlock({ segment, excluded, onToggleExclude, highlightCPA = false
             <TableRow key={a.id}>
               <TableCell className="align-top">
                 <div className="flex items-start gap-2">
-                  {a.warning && <AlertTriangle className="h-4 w-4 text-red-600 mt-0.5" />}
                   <div className="font-medium">{a.title}</div>
                 </div>
               </TableCell>
-              <MetricCellsRow />
+              {METRIC_COLUMNS.map((_, i) => (
+                <TableCell key={i}>
+                  <div className="flex items-center justify-center gap-1">
+                    <MetricCell />
+                    {a.warning && i === 3 && (
+                      <Popover>
+                        <PopoverTrigger className="text-red-600"><AlertTriangle className="h-4 w-4" /></PopoverTrigger>
+                        <PopoverContent align="center" className="w-72 text-sm">
+                          <div className="font-medium mb-1">Рекомендация</div>
+                          <textarea
+                            className="mt-2 w-full rounded border bg-background p-2 text-sm"
+                            rows={4}
+                            value={adRecs[a.id] ?? "Отключите объявление"}
+                            onChange={(e) => setAdRecs((m) => ({ ...m, [a.id]: e.target.value }))}
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    )}
+                  </div>
+                </TableCell>
+              ))}
             </TableRow>
           ))}
         </>

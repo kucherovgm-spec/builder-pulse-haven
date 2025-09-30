@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { RefreshCw, ChevronDown } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function Toolbar() {
   return (
@@ -15,6 +16,18 @@ export default function Toolbar() {
               Положил в корзину
               <ChevronDown className="h-3.5 w-3.5" />
             </Button>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-muted-foreground">Атрибуция:</span>
+            <Select defaultValue="auto">
+              <SelectTrigger className="h-8 w-[190px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="auto">автоматическая</SelectItem>
+                <SelectItem value="last">последний переход</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           <div className="ml-auto flex items-center gap-3">
             <div className="hidden md:block text-muted-foreground">Период: 28 авг — 28 сент (30 дн.)</div>

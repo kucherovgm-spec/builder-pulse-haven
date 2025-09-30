@@ -230,8 +230,32 @@ function AnalysisTable({ title, segments, excluded, onToggleExclude }: { title: 
   return (
     <div className="rounded-lg border bg-card">
       <div className="flex items-center justify-between gap-2 border-b px-4 py-2 text-sm">
-        <div className="font-medium">{title}</div>
+        <div className="font-semibold text-base sm:text-lg">{title}</div>
       </div>
+      <div className="overflow-x-auto">
+        <Table>
+          <TableHeader>
+            <TableRow className="bg-muted/50">
+              <TableHead className="w-[520px]">&nbsp;</TableHead>
+              {METRIC_COLUMNS.map((col) => (
+                <TableHead key={col} className="text-center">{col}</TableHead>
+              ))}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {segments.map((s, i) => (
+              <SegmentBlock key={s.id} segment={s} excluded={excluded} onToggleExclude={onToggleExclude} highlightCPA={i < 2} />
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    </div>
+  );
+}
+
+function SummaryTable() {
+  return (
+    <div className="rounded-lg border bg-card">
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
@@ -247,10 +271,6 @@ function AnalysisTable({ title, segments, excluded, onToggleExclude }: { title: 
               <TableCell className="font-medium">Итого по цели</TableCell>
               <MetricCellsRow firstVariant="none" />
             </TableRow>
-
-            {segments.map((s, i) => (
-              <SegmentBlock key={s.id} segment={s} excluded={excluded} onToggleExclude={onToggleExclude} highlightCPA={i < 2} />
-            ))}
           </TableBody>
         </Table>
       </div>
@@ -316,6 +336,7 @@ export default function Dashboard() {
   return (
     <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 py-4">
       <div className="max-h-[calc(100vh-180px)] overflow-y-auto space-y-6 pr-2">
+        <SummaryTable />
         <AnalysisTable title="Анализ по полу и устройству в Сетях" segments={segmentsA} excluded={excluded} onToggleExclude={toggleExclude} />
         <AnalysisTable title="Анализ по условию показа на поиске" segments={segmentsB} excluded={excluded} onToggleExclude={toggleExclude} />
       </div>

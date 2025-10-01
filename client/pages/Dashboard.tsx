@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { AlertTriangle, ChevronDown, Info, X } from "lucide-react";
+import { AlertTriangle, ChevronDown, Info, X, Pencil } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 
 const METRIC_COLUMNS = [
   "Средний CPA",
-  "��асход",
+  "Расход",
   "Расх (%)",
   "Онлайн конв",
   "CR (%)",
@@ -42,9 +42,9 @@ function MetricCell({
         className={cn(
           "text-sm leading-none rounded px-2 py-0.5",
           variant === "bad" &&
-            "bg-red-200 text-red-800 ring-1 ring-red-300 font-semibold",
+            "bg-red-300 text-red-900 ring-1 ring-red-400 font-semibold",
           variant === "good" &&
-            "bg-emerald-200 text-emerald-900 ring-1 ring-emerald-300",
+            "bg-emerald-300 text-emerald-950 ring-1 ring-emerald-400",
         )}
       >
         111
@@ -115,7 +115,7 @@ function SegmentBlock({
         <TableCell
           className={cn(
             "align-top",
-            highlightCPA ? "bg-red-200/70" : "bg-emerald-200/70",
+            highlightCPA ? "bg-red-300/60" : "bg-emerald-300/60",
           )}
         >
           <div className="flex items-start gap-2">
@@ -148,13 +148,22 @@ function SegmentBlock({
             </div>
           </div>
           <div className="mt-2">
-            <label className="mb-1 block text-xs text-muted-foreground">Рекомендация</label>
-            <textarea
-              className="w-full rounded border bg-background p-2 text-sm"
-              rows={3}
-              value={segRec}
-              onChange={(e) => setSegRec(e.target.value)}
-            />
+            <div className="flex items-center gap-2 text-sm">
+              <span>{segRec}</span>
+              <Popover>
+                <PopoverTrigger className="text-muted-foreground hover:text-foreground" aria-label="Редактировать рекомендацию">
+                  <Pencil className="h-4 w-4" />
+                </PopoverTrigger>
+                <PopoverContent align="start" className="w-80">
+                  <textarea
+                    className="w-full rounded border bg-background p-2 text-sm"
+                    rows={2}
+                    value={segRec}
+                    onChange={(e) => setSegRec(e.target.value)}
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
           </div>
         </TableCell>
         <MetricCellsRow firstVariant={highlightCPA ? "bad" : "good"} />
@@ -205,8 +214,7 @@ function SegmentBlock({
                         )}
                       </div>
                       <div className="mt-2">
-                        <label className="mb-1 block text-xs text-muted-foreground">Характеристика</label>
-                        <div className="rounded border bg-background p-2 text-sm">
+                        <div className="rounded border bg-background p-1.5 text-sm">
                           {c.desc}
                         </div>
                       </div>

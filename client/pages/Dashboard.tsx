@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 
 const METRIC_COLUMNS = [
   "Средний CPA",
-  "Расход",
+  "��асход",
   "Расх (%)",
   "Онлайн конв",
   "CR (%)",
@@ -42,9 +42,9 @@ function MetricCell({
         className={cn(
           "text-sm leading-none rounded px-2 py-0.5",
           variant === "bad" &&
-            "bg-red-50 text-red-700 ring-1 ring-red-200 font-semibold",
+            "bg-red-200 text-red-800 ring-1 ring-red-300 font-semibold",
           variant === "good" &&
-            "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200",
+            "bg-emerald-200 text-emerald-900 ring-1 ring-emerald-300",
         )}
       >
         111
@@ -106,13 +106,16 @@ function SegmentBlock({
   const [open, setOpen] = useState<boolean>(!!segment.defaultOpen);
   const [campRecs, setCampRecs] = useState<Record<string, string>>({});
   const [adRecs, setAdRecs] = useState<Record<string, string>>({});
+  const [segRec, setSegRec] = useState<string>(() =>
+    highlightCPA ? "Нужно ставить понижающие корректировки." : "нужно разгонять.",
+  );
   return (
     <>
       <TableRow>
         <TableCell
           className={cn(
             "align-top",
-            highlightCPA ? "bg-red-50" : "bg-emerald-50/60",
+            highlightCPA ? "bg-red-200/70" : "bg-emerald-200/70",
           )}
         >
           <div className="flex items-start gap-2">
@@ -143,6 +146,15 @@ function SegmentBlock({
               12%
               <Info className="h-3 w-3" />
             </div>
+          </div>
+          <div className="mt-2">
+            <label className="mb-1 block text-xs text-muted-foreground">Рекомендация</label>
+            <textarea
+              className="w-full rounded border bg-background p-2 text-sm"
+              rows={3}
+              value={segRec}
+              onChange={(e) => setSegRec(e.target.value)}
+            />
           </div>
         </TableCell>
         <MetricCellsRow firstVariant={highlightCPA ? "bad" : "good"} />
@@ -192,8 +204,11 @@ function SegmentBlock({
                           </Popover>
                         )}
                       </div>
-                      <div className="text-xs text-muted-foreground">
-                        {c.desc}
+                      <div className="mt-2">
+                        <label className="mb-1 block text-xs text-muted-foreground">Характеристика</label>
+                        <div className="rounded border bg-background p-2 text-sm">
+                          {c.desc}
+                        </div>
                       </div>
                       <button
                         onClick={() => onToggleExclude(c.id)}

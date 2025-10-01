@@ -328,10 +328,10 @@ function AnalysisTable({
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
-            <TableRow className="bg-muted/50">
-              <TableHead className="w-[520px]">&nbsp;</TableHead>
+            <TableRow className="bg-muted">
+              <TableHead className="w-[520px] text-foreground font-semibold">&nbsp;</TableHead>
               {METRIC_COLUMNS.map((col) => (
-                <TableHead key={col} className="text-center">
+                <TableHead key={col} className="text-center text-foreground font-semibold">
                   {col}
                 </TableHead>
               ))}
@@ -360,10 +360,10 @@ function SummaryTable() {
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
-            <TableRow className="bg-muted/50">
-              <TableHead className="w-[520px]">&nbsp;</TableHead>
+            <TableRow className="bg-muted">
+              <TableHead className="w-[520px] text-foreground font-semibold">&nbsp;</TableHead>
               {METRIC_COLUMNS.map((col) => (
-                <TableHead key={col} className="text-center">
+                <TableHead key={col} className="text-center text-foreground font-semibold">
                   {col}
                 </TableHead>
               ))}

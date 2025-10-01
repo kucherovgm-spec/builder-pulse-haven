@@ -107,7 +107,9 @@ function SegmentBlock({
   const [campRecs, setCampRecs] = useState<Record<string, string>>({});
   const [adRecs, setAdRecs] = useState<Record<string, string>>({});
   const [segRec, setSegRec] = useState<string>(() =>
-    highlightCPA ? "Нужно ставить понижающие корректировки." : "нужно разгонять.",
+    highlightCPA
+      ? "Нужно ставить понижающие корректировки."
+      : "нужно разгонять.",
   );
   return (
     <>
@@ -151,7 +153,10 @@ function SegmentBlock({
             <div className="flex items-center gap-2 text-sm">
               <span>{segRec}</span>
               <Popover>
-                <PopoverTrigger className="text-muted-foreground hover:text-foreground" aria-label="Редактировать рекомендацию">
+                <PopoverTrigger
+                  className="text-muted-foreground hover:text-foreground"
+                  aria-label="Редактировать рекомендацию"
+                >
                   <Pencil className="h-4 w-4" />
                 </PopoverTrigger>
                 <PopoverContent align="start" className="w-80">
@@ -352,9 +357,14 @@ function AnalysisTable({
         <Table>
           <TableHeader>
             <TableRow className="bg-muted">
-              <TableHead className="w-[520px] text-foreground font-semibold">&nbsp;</TableHead>
+              <TableHead className="w-[520px] text-foreground font-semibold">
+                &nbsp;
+              </TableHead>
               {METRIC_COLUMNS.map((col) => (
-                <TableHead key={col} className="text-center text-foreground font-semibold">
+                <TableHead
+                  key={col}
+                  className="text-center text-foreground font-semibold"
+                >
                   {col}
                 </TableHead>
               ))}
@@ -384,9 +394,14 @@ function SummaryTable() {
         <Table>
           <TableHeader>
             <TableRow className="bg-muted">
-              <TableHead className="w-[520px] text-foreground font-semibold">&nbsp;</TableHead>
+              <TableHead className="w-[520px] text-foreground font-semibold">
+                &nbsp;
+              </TableHead>
               {METRIC_COLUMNS.map((col) => (
-                <TableHead key={col} className="text-center text-foreground font-semibold">
+                <TableHead
+                  key={col}
+                  className="text-center text-foreground font-semibold"
+                >
                   {col}
                 </TableHead>
               ))}

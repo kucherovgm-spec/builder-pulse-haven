@@ -278,6 +278,33 @@ function SegmentBlock({
               </Popover>
             </div>
           </div>
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <Button
+              type="button"
+              size="sm"
+              variant={highlightCPA ? "destructive" : "secondary"}
+              className={cn(
+                "text-xs font-semibold",
+                highlightCPA
+                  ? "shadow-[0_0_0_1px_rgba(248,113,113,0.55)]"
+                  : "bg-emerald-400/20 text-emerald-900 hover:bg-emerald-400/30",
+              )}
+              onClick={() => setActiveDialog(cpaDialogState)}
+              aria-label={`Открыть диалог по теме ${cpaButtonLabel.toLowerCase()}`}
+            >
+              {cpaButtonLabel}
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              className="text-xs"
+              onClick={() => setActiveDialog(bounceDialogState)}
+              aria-label="Открыть диалог по проблеме высоких отказов"
+            >
+              Высокие отказы
+            </Button>
+          </div>
         </TableCell>
         <MetricCellsRow firstVariant={highlightCPA ? "bad" : "good"} />
       </TableRow>

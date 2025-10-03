@@ -102,6 +102,13 @@ type Segment = {
   ads: Ad[];
 };
 
+type SupportDialogState = {
+  title: string;
+  summary: string;
+  assistantMessage: string;
+  suggestions: string[];
+};
+
 function SegmentBlock({
   segment,
   excluded,

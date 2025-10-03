@@ -130,7 +130,7 @@ function SegmentBlock({
   );
   const [activeDialog, setActiveDialog] =
     useState<SupportDialogState | null>(null);
-  const cpaButtonLabel = highlightCPA ? "Высокий CPA" : "Низкий CPA";
+  const cpaButtonLabel = highlightCPA ? "Высокий CPA" : "��изкий CPA";
   const cpaDialogState: SupportDialogState = {
     title: cpaButtonLabel,
     summary: `Диалог по сегменту «${segment.info}».`,
@@ -162,6 +162,65 @@ function SegmentBlock({
   };
   return (
     <>
+      <Dialog
+        open={!!activeDialog}
+        onOpenChange={(open) => {
+          if (!open) {
+            setActiveDialog(null);
+          }
+        }}
+      >
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>{activeDialog?.title}</DialogTitle>
+            {activeDialog?.summary ? (
+              <DialogDescription>{activeDialog.summary}</DialogDescription>
+            ) : null}
+          </DialogHeader>
+          <div className="space-y-4 text-sm">
+            {activeDialog?.assistantMessage ? (
+              <div className="rounded-md bg-accent/40 p-3">
+                <div className="font-semibold text-foreground">Ассистент</div>
+                <p className="mt-2 text-muted-foreground">
+                  {activeDialog.assistantMessage}
+                </p>
+              </div>
+            ) : null}
+            {activeDialog?.suggestions?.length ? (
+              <div className="space-y-2">
+                <div className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  Предлагаемые шаги
+                </div>
+                <ul className="list-disc space-y-1 pl-5">
+                  {activeDialog.suggestions.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+            <div className="rounded-md border p-3">
+              <label className="text-xs font-semibold text-muted-foreground">
+                Ваш ответ ассистенту
+              </label>
+              <textarea
+                className="mt-2 w-full resize-none rounded border bg-background p-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                rows={3}
+                placeholder="Опишите текущие действия или поделитесь дополнительными данными."
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button type="button" variant="outline">
+                Закрыть
+              </Button>
+            </DialogClose>
+            <Button type="button" onClick={() => setActiveDialog(null)}>
+              Отправить
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       <TableRow>
         <TableCell
           className={cn(

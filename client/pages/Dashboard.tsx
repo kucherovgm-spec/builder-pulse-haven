@@ -130,7 +130,7 @@ function SegmentBlock({
   );
   const [activeDialog, setActiveDialog] =
     useState<SupportDialogState | null>(null);
-  const cpaButtonLabel = highlightCPA ? "Высокий CPA" : "��изкий CPA";
+  const cpaButtonLabel = highlightCPA ? "Высокий CPA" : "Низкий CPA";
   const cpaDialogState: SupportDialogState = {
     title: cpaButtonLabel,
     summary: `Диалог по сегменту «${segment.info}».`,
